@@ -1,0 +1,15 @@
+import configparser
+config = configparser.ConfigParser()
+config.read('configparser/settings.ini',encoding='utf-8')
+# config.sessions()获得所有配置项
+print(config.sections())
+# 获得配置项下的key config.options()
+print(config.options('db'))
+# 获得配置项下的key和value config.items()
+print(config.items('db'))
+# 获取配置项下某个key对应的值 config.get()
+print(config.get('db','user'))
+# 获取整数类型  config.getint()
+# 获取浮点形类型  config.getfloat()
+# 获取布尔类型  config.getboolean()
+print(config.getboolean('default','compression'))

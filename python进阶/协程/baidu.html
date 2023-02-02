@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.3.min.js"></script>
+    <title>Redirection Page</title>
+
+    <!-- Start: Amplify Tracking Script -->
+    <script>
+        var PartnerCode = getQryStrParamValues('pc');
+        if (PartnerCode == "w147") {
+            (function (w, d, t, r, u) { var f, n, i; w[u] = w[u] || [], f = function () { var o = { ti: "149014669" }; o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad") }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange = function () { var s = this.readyState; s && s !== "loaded" && s !== "complete" || (f(), n.onload = n.onreadystatechange = null) }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i) })(window, document, "script", "//bat.bing.com/bat.js", "uetq");
+        }
+
+        function getQryStrParamValues(param) {
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (urlparam[0].toLowerCase() == param.toLowerCase()) {
+                    return urlparam[1].toLowerCase();
+                }
+            }
+        }
+    </script>
+    <!-- End: Amplify Tracking Script -->
+    
+    <script>
+        $(document).ready(function () {
+
+            var Brand = getQryStrParamValues('brand');
+            var Market = getQryStrParamValues('mkt');
+            var apiURL = "https://bingwallpaper.microsoft.com/api/BWC/getPackageURL?brand="+Brand+"&pc="+PartnerCode;
+            if (Market != undefined) {
+                apiURL += "&mkt="+ Market;
+            }
+            
+            // API Call to get Download URL
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                success: function (resultData) {
+
+                    // console.log("strRedirectionURL:" + strRedirectionURL);
+                    window.location = resultData;
+
+                    var timeOutValue = 1000;
+                    
+                    // Internet Explorer 6-11
+                    var isIE = /*@cc_on!@*/ false || !!document.documentMode;
+                    if (isIE) {
+                        timeOutValue = 5000;
+                    }
+
+                    setTimeout(function () {
+                        var strLandingPage = "https://www.microsoft.com/bing/bing-wallpaper";
+                        if (Brand == "bing") {                            
+                            if (Market != undefined) {
+                                strLandingPage = "https://www.microsoft.com/" + Market + "/bing/bing-wallpaper";
+                            }
+
+                            if (PartnerCode != undefined) {
+                                strLandingPage += "?pc=" + PartnerCode;
+                            }
+                        }
+                        else if (Brand == "msn") {
+                            strLandingPage = "https://www.microsoft.com/bing/bing-wallpaper-msn";
+                            if (Market != undefined) {
+                                strLandingPage = "https://www.microsoft.com/" + Market + "/bing/bing-wallpaper-msn";
+                            }
+
+                            if (PartnerCode != undefined) {
+                                strLandingPage += "?pc=" + PartnerCode;
+                            }
+                        }
+                        else if (Brand == "msnews") {
+                            strLandingPage = "https://www.microsoft.com/bing/bing-wallpaper-msnews";
+                            if (Market != undefined) {
+                                strLandingPage = "https://www.microsoft.com/" + Market + "/bing/bing-wallpaper-msnews";
+                            }
+
+                            if (PartnerCode != undefined) {
+                                strLandingPage += "?pc=" + PartnerCode;
+                            }
+                        }
+
+                        if (strLandingPage != "") {
+                            window.location = strLandingPage;
+                        }
+
+                    }, timeOutValue);
+
+                },
+                error: function (textStatus, errorThrown) {
+                    
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
